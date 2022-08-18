@@ -10,8 +10,8 @@ app = FastAPI()
 with open('aws_credentials.json') as json_file:
     new_client_session_credentials = json.load(json_file)
 
-ec2_client = boto3.client( 'ec2', aws_access_key_id = new_client_session_credentials["AccessKeyId"],
-                                 aws_secret_access_key = new_client_session_credentials["SecretAccessKey"] )
+ec2_client = boto3.client('ec2', aws_access_key_id = new_client_session_credentials["AccessKeyId"],
+                                 aws_secret_access_key = new_client_session_credentials["SecretAccessKey"]) 
 
 regions_response = ec2_client.describe_regions(AllRegions=True)
 regions_list = [item['RegionName'] for item in regions_response["Regions"]]
@@ -29,9 +29,9 @@ def pattern_match_check(str_input):
         return False       
     else:
         return True
-        
-@app.get("/get_running_EC2Instances")
-def get_ec2_instances_list(reg_name : Union[str,None]  = Query(description="Region Name of the selected AWS Resource",default = "ap-south-1",
+
+@app.get("/get_s3_buckets_list")
+def list_s3_buckets(reg_name : Union[str,None]  = Query(description="Region Name of the selected AWS Resource",default = "ap-south-1",
                                                         regex="(af|us|ap|ca|cn|eu|sa|me)-(central|(north|south)?(east|west)?)-\d",
                                             		    min_length= len(shortest_region_name), max_length = len(longest_region_name))) -> dict:
     """Lists all the names of the AWS EC2 instances in a specified region"""
@@ -65,4 +65,6 @@ def get_ec2_instances_list(reg_name : Union[str,None]  = Query(description="Regi
  
 @app.get("/")
 async def root():
-    return "Welcome to CAS (Cloud Automation Suite) API Testing using Artemis"
+    return "Welcome to CAS - Cloud Automation Suite API Testing using Artemis"
+
+

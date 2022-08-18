@@ -57,7 +57,7 @@ schema = schemathesis.from_uri(BASE_URL, validate_schema=False)
 @settings(suppress_health_check=(HealthCheck.too_slow,HealthCheck.filter_too_much,))
 def custom_test1(case):
     response = case.call()
-    # case.validate_response(response, checks=(not_a_server_error, response_headers_conformance, response_schema_conformance))
-    case.call_and_validate(headers={"Authorization" : "Token NJNINGJHZJCTNDC5NY0ZZWRJLTHKOWQTOTAYNZC3NMI3YJI1"})
+    case.validate_response(response, checks=(not_a_server_error, response_headers_conformance, response_schema_conformance))
+    #case.call_and_validate(headers={"Authorization" : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huZG9lIiwiZXhwIjoxNjU4Mzk4NTk1fQ.Jn4dD0N-w6_F8PlbUjSNVrMRiyX1Quh_R1YHdIVd6N4"})
 # 127.0.0.1:8000
 

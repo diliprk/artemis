@@ -15,7 +15,7 @@ class UserIn(BaseModel):
     fname: str
     lname: str
     zname: str
-    
+
 msg = {"Hello": "World!!"}
 
 # @app.get("/items/{item_id}are
@@ -32,6 +32,7 @@ async def root(msg):
     if msg == None:
         raise HTTPException(status_code=400, detail="not found error")
     return msg
+
 
 @app.get("/items/{item_id}")
 async def read_item(item_id):

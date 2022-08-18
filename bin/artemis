@@ -1,2 +1,38 @@
-pytest -v src/schema-testing.py --tb=short --workers 4 --html=reports/report.html --css=src/highcontrast.css
-pytest -v src/schema-testing-neg.py --tb=short --workers 4 --html=reports/report-neg.html --css=src/highcontrast.css
+#!/bin/bash
+
+while getopts 'qfs' OPTION; do
+  case "$OPTION" in
+    q)
+      printf "Quick Test Enabled\n"
+      printf "==================\n"
+      printf "\n"
+      pytest -v src/schema-testing.py --tb=short --workers 4 --html=reports/report.html --css=src/highcontrast.css
+      #printf "linuxconfig"
+      ;;
+    f)
+      printf "Full Test Enabled\n"
+      printf "=================\n"
+      printf "\n"
+      printf "Note: Can be slower with large number of APIs.\n"
+      pytest -v src/schema-testing.py --tb=short --workers 4 --html=reports/report.html --css=src/highcontrast.css
+      pytest -v src/schema-testing-neg.py --tb=short --workers 4 --html=reports/report-neg.html --css=src/highcontrast.css
+      ;;
+    s)
+      avalue="$OPTARG"
+      printf "Scenario Based Testing Enabled\n"
+      printf "==============================\n"
+      printf "\n"
+      printf "Note: Expected completion time ~8-10 mins.\n"
+      pytest -v src/scenario-testing.py --tb=short --workers 6 --html=reports/report.html --css=src/highcontrast.css
+      ;;
+    ?)
+      printf "script usage: $(basename \$0) [-q] [-f] [-s somevalue]" >&2
+      exit 1
+      ;;
+  esac
+done
+shift "$(($OPTIND -1))"
+
+
+#pytest -v src/schema-testing.py --tb=short --workers 4 --html=reports/report.html --css=src/highcontrast.css
+#pytest -v src/schema-testing-neg.py --tb=short --workers 4 --html=reports/report-neg.html --css=src/highcontrast.css
